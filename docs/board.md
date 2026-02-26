@@ -6,9 +6,11 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Implement web search
 - [ ] Connect to LLM/SLM
-- [ ] Implement RAG/MCP
+- [ ] Prompt management
+- [ ] Context window management
+- [ ] RAG/Embeddings
+- [ ] MCP/Web Search
 
 
 ## Todo
