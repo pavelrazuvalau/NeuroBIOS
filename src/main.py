@@ -6,6 +6,8 @@ def main():
     fsm.get_state()
     fsm.set_state("WORKING")
     fsm.get_state()
+    fsm.set_state("FLYING_PIG")
+    fsm.get_state()
  
 if __name__ == "__main__":
     main()
