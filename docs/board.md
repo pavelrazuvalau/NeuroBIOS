@@ -15,11 +15,11 @@ kanban-plugin: board
 
 ## Todo
 
-- [ ] Implement configurable FSM
 
 
 ## In progress
 
+- [ ] Implement configurable FSM
 
 
 ## Done
