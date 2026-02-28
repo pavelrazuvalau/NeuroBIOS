@@ -2,7 +2,7 @@ class StateMachine:
     ALLOWED_STATES = ("IDLE", "WORKING", "END")
 
     def __init__(self):
-        self.state = "IDLE"
+        self.state = self.ALLOWED_STATES[0]
 
     def get_state(self):
         print(f"Current State: {self.state}")
@@ -11,4 +11,4 @@ class StateMachine:
         if state in self.ALLOWED_STATES:
             self.state = state
         else:
-            print("Wrong stage: IDLE, WORKING, END is expected")
+            print(f"Wrong stage: expected one in the list: {self.ALLOWED_STATES}")
