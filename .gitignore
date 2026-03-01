@@ -208,3 +208,6 @@ __marimo__/
 
 # Obsidian
 .obsidian/
+
+# Archived docs for local usage only
+docs/archive/
