@@ -6,8 +6,11 @@ kanban-plugin: board
 
 ## Backlog
 
+- [ ] [LM] Integrate LLM for basic responses
 - [ ] [FSM] Introduce Multi-flow (scan, analysis, task)
 - [ ] [FSM] Introduce quality metrics of risks/probability
+- [ ] [FSM] Extend set_state with event handling
+- [ ] [FSM] Allow backward transition to support rollback (e.g. LLM hallucinated bad response)
 - [ ] [LM] Integrate SLM (FunctionGemma) for basic tool calling (FSM transitions)
 - [ ] [LM] Create a mock quality metrics predictor (random HIGH/LOW generator)
 - [ ] [FSM] Implement quality metrics prediction parser from plain text for further deterministic transitions
@@ -19,22 +22,25 @@ kanban-plugin: board
 
 ## Todo
 
-- [ ] [FSM] Extend set_state with event handling
-- [ ] [FSM] Add dummy action callbacks (prints)
-- [ ] [LM] Integrate LLM for basic responses
+- [ ] [FSM] Error handling
+- [ ] [FSM] Interrupt flow for escalation
+- [ ] [LM] Implement mock LLM class for static/random text
+- [ ] [Integration] Invoke LLM from FSM: pass context, next steps
 
 
 ## In progress
 
-- [ ] [FSM] Implement state transition validation
+- [ ] [FSM] Implement basic shared context among states
 
 
 ## Done
 
 **Complete**
-- [x] Init project
-- [x] [FSM] Implement base class
+- [x] [FSM] Add dummy action callbacks (prints)
+- [x] [FSM] Implement state transition validation
 - [x] [FSM] Validate setting state string based on allowed list
+- [x] [FSM] Implement base class
+- [x] Init project
 
 
 
