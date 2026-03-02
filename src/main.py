@@ -9,6 +9,7 @@ def grind_coffee(context):
 
 def pour_water(context):
     return {
+        "success": context.get("coffee_ground"),
         "result": "Pouring water..." if context.get("coffee_ground") else "Oops... Looks like we're just pouring water: out of coffee!",
     }
 
@@ -19,16 +20,26 @@ def pour_milk(context):
 
 def serve_drink(context):
     return {
-        "result": "Enjoy your drink",
+        "result": "Enjoy your drink!",
+    }
+
+def end_flow(context):
+    return {
+        "result": "EOF"
+    }
+
+def escalate_flow(context):
+    return {
+        "result": f"Warning! Flow is interrupted. User attention required: {context}"
     }
 
 def run_fsm(fsm):
-    while fsm.is_running():
+    while fsm.is_flow_running:
         step_result = fsm.execute_state()
         print(f"Current step: {fsm.get_state()}")
         print(f"Current result: {step_result}")
 
-        fsm.set_next_state()
+        fsm.go_to_next_state()
 
 def main():
     coffee_machine_menu = {
@@ -44,23 +55,22 @@ def main():
         "SERVE": serve_drink
     }
 
-    coffee_machine = StateMachine(coffee_state_actions)
+    system_actions = {
+        "END": end_flow,
+        "ESCALATE": escalate_flow
+    }
+
+    coffee_machine = StateMachine(coffee_state_actions, system_actions)
 
     print("Making Capucino:")
 
-    coffee_machine.set_flow(coffee_machine_menu["capucino"], { "seeds_available": True })
-    run_fsm(coffee_machine)
-
-    print("\n")
-
-    print("Testing edge case:")
-    coffee_machine.set_flow(())
+    coffee_machine.set_flow(coffee_machine_menu["capucino"], { "seeds_available": False })
     run_fsm(coffee_machine)
 
     print("\n")
 
     print("Making Flat White:")
-    coffee_machine.set_flow(coffee_machine_menu["flat_white"], { "seeds_available": False })
+    coffee_machine.set_flow(coffee_machine_menu["flat_white"], { "seeds_available": True })
     run_fsm(coffee_machine)
  
 if __name__ == "__main__":
