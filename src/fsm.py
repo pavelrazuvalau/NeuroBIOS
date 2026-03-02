@@ -6,16 +6,17 @@ class StateMachine:
         self.allowed_states = tuple()
         self.state = self.IDLE_STATE
 
-    def set_flow(self, allowed_states):
+    def set_flow(self, allowed_states, context = None):
         if not allowed_states:
             print("Error: flow cannot be empty")
             return
 
         self.allowed_states = allowed_states
+        self.context = context if context is not None else {}
         self.state = self.allowed_states[0]
 
     def get_state(self):
-        print(f"Current State: {self.state}")
+        return { "state": self.state, "context": self.context }
 
     def set_next_state(self):
         if not self.is_running():
@@ -41,7 +42,10 @@ class StateMachine:
         current_action = self.state_actions.get(self.state)
 
         if current_action:
-            return current_action()
+            response = current_action(self.context)
+            context_update = response.get("context_update", {})
+            self.context |= context_update
+            return response.get("result")
         else:
             print(f"No action found for state {self.state}")
             return None

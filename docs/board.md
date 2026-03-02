@@ -6,6 +6,8 @@ kanban-plugin: board
 
 ## Backlog
 
+- [ ] [FSM] Error handling
+- [ ] [FSM] Interrupt flow for escalation
 - [ ] [LM] Integrate LLM for basic responses
 - [ ] [FSM] Introduce Multi-flow (scan, analysis, task)
 - [ ] [FSM] Introduce quality metrics of risks/probability
@@ -22,20 +24,18 @@ kanban-plugin: board
 
 ## Todo
 
-- [ ] [FSM] Error handling
-- [ ] [FSM] Interrupt flow for escalation
-- [ ] [LM] Implement mock LLM class for static/random text
 - [ ] [Integration] Invoke LLM from FSM: pass context, next steps
 
 
 ## In progress
 
-- [ ] [FSM] Implement basic shared context among states
+- [ ] [LM] Implement mock LLM class for static/random text
 
 
 ## Done
 
 **Complete**
+- [x] [FSM] Implement basic shared context among states
 - [x] [FSM] Add dummy action callbacks (prints)
 - [x] [FSM] Implement state transition validation
 - [x] [FSM] Validate setting state string based on allowed list

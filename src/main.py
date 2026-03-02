@@ -1,22 +1,32 @@
 from fsm import StateMachine
 
 # temp functions for coffee machine to set up fsm callbacks
-def grind_coffee():
-    return "Grinding coffee..."
+def grind_coffee(context):
+    return {
+        "result": "Grinding coffee...",
+        "context_update": { "coffee_ground": context.get("seeds_available"), "seeds_available": False }
+    }
 
-def pour_water():
-    return "Pouring water..."
+def pour_water(context):
+    return {
+        "result": "Pouring water..." if context.get("coffee_ground") else "Oops... Looks like we're just pouring water: out of coffee!",
+    }
 
-def pour_milk():
-    return "Pouring milk..."
+def pour_milk(context):
+    return {
+        "result": "Pouring milk...",
+    }
 
-def serve_drink():
-    return "Enjoy your drink"
+def serve_drink(context):
+    return {
+        "result": "Enjoy your drink",
+    }
 
 def run_fsm(fsm):
     while fsm.is_running():
         step_result = fsm.execute_state()
-        print(step_result)
+        print(f"Current step: {fsm.get_state()}")
+        print(f"Current result: {step_result}")
 
         fsm.set_next_state()
 
@@ -38,7 +48,7 @@ def main():
 
     print("Making Capucino:")
 
-    coffee_machine.set_flow(coffee_machine_menu["capucino"])
+    coffee_machine.set_flow(coffee_machine_menu["capucino"], { "seeds_available": True })
     run_fsm(coffee_machine)
 
     print("\n")
@@ -50,7 +60,7 @@ def main():
     print("\n")
 
     print("Making Flat White:")
-    coffee_machine.set_flow(coffee_machine_menu["flat_white"])
+    coffee_machine.set_flow(coffee_machine_menu["flat_white"], { "seeds_available": False })
     run_fsm(coffee_machine)
  
 if __name__ == "__main__":
