@@ -16,17 +16,17 @@ kanban-plugin: board
 
 - [ ] [LM] Integrate LLM for basic responses
 - [ ] [Integration] Invoke LLM from FSM: pass context, next steps
-- [ ] [FSM] Implement quality metrics prediction parser from plain text for further deterministic transitions
 
 
 ## In progress
 
-- [ ] [FSM] Extract configuration to a separate file
+- [ ] [FSM] Implement quality metrics prediction parser from plain text for further deterministic transitions
 
 
 ## Done
 
 **Complete**
+- [x] [FSM] Extract configuration to a separate file
 - [x] [FSM] Support branch/loop
 - [x] [LM] Create a mock quality metrics predictor (random HIGH/LOW generator)
 - [x] [FSM] Interrupt flow for escalation

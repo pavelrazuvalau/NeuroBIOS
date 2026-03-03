@@ -1,11 +1,9 @@
-class StateMachine:
-    IDLE_STATE = "IDLE"
-    END_STATE = "END"
-    ESCALATE_STATE = "ESCALATE"
-    STOP_STATES = (END_STATE, ESCALATE_STATE)
+from core.constants import SYSTEM_STOP_STATES, SystemState
 
+
+class StateMachine:
     def __init__(self, flow_actions, system_actions = None):
-        self.state = self.IDLE_STATE
+        self.state = SystemState.IDLE
         self.context = {}
         self.is_flow_running = False
 
@@ -29,7 +27,7 @@ class StateMachine:
         self._flow_states = flow_states
 
     def get_state(self):
-        return { "state": self.state, "context": self.context }
+        return { "state": self.state.name, "context": self.context }
 
     def go_to_next_state(self):
         if self._next_state_override is not None:
@@ -43,7 +41,7 @@ class StateMachine:
             return
         
         if self._is_unhandled_failure_occurred:
-            self._set_state(self.ESCALATE_STATE)
+            self._set_state(SystemState.ESCALATE)
             self._is_unhandled_failure_occurred = False
             return
         
@@ -53,7 +51,7 @@ class StateMachine:
         
         next_state_index = self._get_state_index(self.state) + 1
         is_next_step_available = next_state_index < len(self._flow_states)
-        next_state = self._flow_states[next_state_index] if is_next_step_available else self.END_STATE
+        next_state = self._flow_states[next_state_index] if is_next_step_available else SystemState.END
 
         self._set_state(next_state)
 
@@ -83,7 +81,7 @@ class StateMachine:
             print(f"Failed to set new state {state}: expected one in the tuple after {self.state}: {self._flow_states}")
 
     def _is_transition_permitted(self, state, is_override):
-        if is_override or state in self.STOP_STATES:
+        if is_override or state in SYSTEM_STOP_STATES:
             return True
         
         if state not in self._flow_states:
@@ -98,4 +96,4 @@ class StateMachine:
         return self._flow_states.index(state)
         
     def _has_reached_stop_state(self):
-        return self.state in self.STOP_STATES
+        return self.state in SYSTEM_STOP_STATES
