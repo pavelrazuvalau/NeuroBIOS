@@ -9,10 +9,13 @@ class StateMachine:
         self.is_flow_running = False
 
         self.__flow_states = tuple()
+
         self.__system_actions = system_actions or {}
         self.__flow_actions = flow_actions
         self.__actions = self.__system_actions | self.__flow_actions
+
         self.__is_unhandled_failure_occured = False
+        self.__next_state_override = None
 
     def set_flow(self, flow_states, context = None):
         if not flow_states:
@@ -29,13 +32,19 @@ class StateMachine:
         return { "state": self.state, "context": self.context }
 
     def go_to_next_state(self):
+        if self.__next_state_override is not None:
+            self.__set_state(self.__next_state_override, True)
+            self.__next_state_override = None
+            self.is_flow_running = True
+            return
+
         if not self.is_flow_running:
             print(f"The flow is stopped at {self.state} state")
             return
         
         if self.__is_unhandled_failure_occured:
-            self.__is_unhandled_failure_occured = False
             self.__set_state(self.ESCALATE_STATE)
+            self.__is_unhandled_failure_occured = False
             return
         
         if self.__has_reached_stop_state():
@@ -53,8 +62,11 @@ class StateMachine:
 
         if current_action:
             response = current_action(self.context)
+
             context_update = response.get("context_update", {})
             self.context |= context_update
+
+            self.__next_state_override = response.get("next_state_override", None)
 
             is_success = response.get("success", True)
             self.__is_unhandled_failure_occured = not is_success
@@ -64,14 +76,14 @@ class StateMachine:
             print(f"No action found for state {self.state}")
             return None
         
-    def __set_state(self, state):
-        if self.__is_transition_permitted(state):
+    def __set_state(self, state, is_override = False):
+        if self.__is_transition_permitted(state, is_override):
             self.state = state
         else:
             print(f"Failed to set new state {state}: expected one in the tuple after {self.state}: {self.__flow_states}")
 
-    def __is_transition_permitted(self, state):
-        if state in self.STOP_STATES:
+    def __is_transition_permitted(self, state, is_override):
+        if is_override or state in self.STOP_STATES:
             return True
         
         if state not in self.__flow_states:

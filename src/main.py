@@ -1,4 +1,5 @@
 from fsm import StateMachine
+from flow_predictor import predict_confidence
 
 # temp functions for coffee machine to set up fsm callbacks
 def grind_coffee(context):
@@ -19,9 +20,15 @@ def pour_milk(context):
     }
 
 def serve_drink(context):
-    return {
+    confidence_level = predict_confidence(context)
+
+    payload = {
         "result": "Enjoy your drink!",
+        "context_update": { "confidence": confidence_level }
     }
+    next_step_prediction = { "next_state_override": "GRIND_COFFEE" } if confidence_level == "LOW" else {}
+
+    return payload | next_step_prediction
 
 def end_flow(context):
     return {
