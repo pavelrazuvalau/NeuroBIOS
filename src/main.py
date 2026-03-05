@@ -2,6 +2,7 @@ from agents.coffee.coffee_agent import CoffeeAgent
 from agents.coffee.coffee_config import COFFEE_FLOWS
 from agents.coffee.coffee_constants import CoffeeFlow
 
+
 def main():
     coffee_agent = CoffeeAgent()
 

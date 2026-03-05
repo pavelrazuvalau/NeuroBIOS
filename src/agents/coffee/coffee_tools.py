@@ -1,5 +1,7 @@
 from agents.coffee.coffee_constants import CoffeeState
-from lm.flow_predictor import predict_confidence
+from lm.lm_constants import CONFIDENCE_LEVELS
+from lm.lm_service import predict_metric
+
 
 def grind_coffee(context):
     return {
@@ -19,11 +21,12 @@ def pour_milk(context):
     }
 
 def serve_drink(context):
-    confidence_level = predict_confidence(context)
+    confidence_level = predict_metric(context, CONFIDENCE_LEVELS)
 
     payload = {
         "result": "Enjoy your drink!",
-        "context_update": { "confidence": confidence_level }
+        "context_update": { "confidence": confidence_level },
+        "success": confidence_level is not None
     }
     next_step_prediction = { "next_state_override": CoffeeState.GRIND_COFFEE } if confidence_level == "LOW" else {}
 

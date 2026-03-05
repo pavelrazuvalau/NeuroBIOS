@@ -1,7 +1,7 @@
 from agents.coffee.coffee_constants import CoffeeFlow, CoffeeState
-
 from agents.coffee import coffee_tools
 from core.constants import SystemState
+
 
 COFFEE_STATE_ACTIONS = {
     CoffeeState.GRIND_COFFEE: coffee_tools.grind_coffee,
