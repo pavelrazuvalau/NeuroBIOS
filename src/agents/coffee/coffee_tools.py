@@ -6,7 +6,7 @@ from lm.lm_service import predict_metric
 def grind_coffee(context):
     return {
         "result": "Grinding coffee...",
-        "context_update": { "coffee_ground": context.get("seeds_available"), "seeds_available": False }
+        "context_update": {"coffee_ground": context.get("seeds_available"), "seeds_available": False}
     }
 
 def pour_water(context):
@@ -29,7 +29,7 @@ def analyze_quality(context):
         "success": confidence_level is not None
     }
 
-    next_step_prediction = { "next_state_override": CoffeeState.GRIND_COFFEE } if confidence_level == "LOW" else {}
+    next_step_prediction = {"next_state_override": CoffeeState.GRIND_COFFEE} if confidence_level == "LOW" else {}
 
     return payload | next_step_prediction
 

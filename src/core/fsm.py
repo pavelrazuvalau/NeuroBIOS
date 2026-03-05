@@ -27,7 +27,7 @@ class StateMachine:
         self._flow_states = flow_states
 
     def get_state(self):
-        return { "state": self.state.name, "context": self.context }
+        return {"state": self.state.name, "context": self.context}
 
     def go_to_next_state(self):
         if self._next_state_override is not None:
