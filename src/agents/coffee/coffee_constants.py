@@ -5,6 +5,7 @@ class CoffeeState(str, Enum):
     GRIND_COFFEE = "GRIND_COFFEE"
     POUR_WATER = "POUR_WATER"
     POUR_MILK = "POUR_MILK"
+    ANALYZE = "ANALYZE"
     SERVE = "SERVE"
 
 class CoffeeFlow(str, Enum):

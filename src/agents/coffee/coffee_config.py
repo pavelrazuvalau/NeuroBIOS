@@ -7,6 +7,7 @@ COFFEE_STATE_ACTIONS = {
     CoffeeState.GRIND_COFFEE: coffee_tools.grind_coffee,
     CoffeeState.POUR_WATER: coffee_tools.pour_water,
     CoffeeState.POUR_MILK: coffee_tools.pour_milk,
+    CoffeeState.ANALYZE: coffee_tools.analyze_quality,
     CoffeeState.SERVE: coffee_tools.serve_drink
 }
 
@@ -16,7 +17,7 @@ COFFEE_SYSTEM_STATE_ACTIONS = {
 }
 
 COFFEE_FLOWS = {
-    CoffeeFlow.BLACK_COFFEE: (CoffeeState.GRIND_COFFEE, CoffeeState.POUR_WATER, CoffeeState.SERVE),
-    CoffeeFlow.CAPUCINO: (CoffeeState.POUR_MILK, CoffeeState.GRIND_COFFEE, CoffeeState.POUR_WATER, CoffeeState.SERVE),
-    CoffeeFlow.FLAT_WHITE: (CoffeeState.GRIND_COFFEE, CoffeeState.POUR_WATER, CoffeeState.POUR_MILK, CoffeeState.SERVE)    
+    CoffeeFlow.BLACK_COFFEE: (CoffeeState.GRIND_COFFEE, CoffeeState.POUR_WATER, CoffeeState.ANALYZE, CoffeeState.SERVE),
+    CoffeeFlow.CAPUCINO: (CoffeeState.POUR_MILK, CoffeeState.GRIND_COFFEE, CoffeeState.POUR_WATER, CoffeeState.ANALYZE, CoffeeState.SERVE),
+    CoffeeFlow.FLAT_WHITE: (CoffeeState.GRIND_COFFEE, CoffeeState.POUR_WATER, CoffeeState.POUR_MILK, CoffeeState.ANALYZE, CoffeeState.SERVE)    
 }

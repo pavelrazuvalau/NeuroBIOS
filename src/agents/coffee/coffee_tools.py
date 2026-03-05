@@ -20,17 +20,23 @@ def pour_milk(context):
         "result": "Pouring milk...",
     }
 
-def serve_drink(context):
+def analyze_quality(context):
     confidence_level = predict_metric(context, CONFIDENCE_LEVELS)
 
     payload = {
-        "result": "Enjoy your drink!",
+        "result": "Analyzing the quality...",
         "context_update": { "confidence": confidence_level },
         "success": confidence_level is not None
     }
+
     next_step_prediction = { "next_state_override": CoffeeState.GRIND_COFFEE } if confidence_level == "LOW" else {}
 
     return payload | next_step_prediction
+
+def serve_drink(context):
+    return {
+        "result": "Enjoy your drink!"
+    }
 
 def end_flow(context):
     return {

@@ -14,17 +14,17 @@ kanban-plugin: board
 
 ## Todo
 
-- [ ] [LM] Integrate LLM for basic responses
 
 
 ## In progress
 
-- [ ] [Integration] Invoke LLM from FSM: pass context, next steps
+- [ ] [LM] Integrate LLM for basic responses
 
 
 ## Done
 
 **Complete**
+- [x] [Integration] Invoke LLM from FSM: pass context, next steps
 - [x] [FSM] Implement quality metrics prediction parser from plain text for further deterministic transitions
 - [x] [FSM] Extract configuration to a separate file
 - [x] [FSM] Support branch/loop
