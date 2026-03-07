@@ -21,7 +21,7 @@ class StateMachine:
             raise ValueError("Error: Flow cannot be empty")
 
         self.state = flow_states[0]
-        self.context = context if context is not None else {}
+        self.context = context if context else {}
         self.is_flow_running = True
 
         self._flow_states = flow_states
@@ -30,7 +30,7 @@ class StateMachine:
         return {"state": self.state.name, "context": self.context}
 
     def go_to_next_state(self):
-        if self._next_state_override is not None:
+        if self._next_state_override:
             self._set_state(self._next_state_override, True)
             self._next_state_override = None
             self.is_flow_running = True

@@ -6,24 +6,31 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [LM] Integrate SLM (FunctionGemma) for basic tool calling (FSM transitions)
 - [ ] [FSM] Introduce Multi-flow (scan, analysis, task)
+- [ ] [LM] Integrate SLM (FunctionGemma) for basic tool calling (FSM transitions)
 - [ ] [LM] RAG/Embeddings
 - [ ] [LM] MCP/Web Search
 
 
 ## Todo
 
+- [ ] [LM] Implement ChatML Prompt Builder
+- [ ] [Integration] Switch lm_client to raw /completion endpoint
+- [ ] [Integration] Implement Agentic Memory (Message History)
+- [ ] [Integration] Create PLANNER and TOOL_EXECUTOR states
+- [ ] [FSM] Create TOOL_EXECUTOR dynamic routing
 
 
 ## In progress
 
-- [ ] [LM] Integrate LLM for basic responses
+- [ ] [LM] Setup llama.cpp server for raw completions
 
 
 ## Done
 
 **Complete**
+- [x] [LM] Define Tool Schemas
+- [x] [LM] Integrate LLM for basic responses
 - [x] [Integration] Invoke LLM from FSM: pass context, next steps
 - [x] [FSM] Implement quality metrics prediction parser from plain text for further deterministic transitions
 - [x] [FSM] Extract configuration to a separate file
