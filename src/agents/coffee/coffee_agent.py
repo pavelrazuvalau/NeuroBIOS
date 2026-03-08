@@ -1,4 +1,7 @@
-from agents.coffee.coffee_config import COFFEE_STATE_ACTIONS, COFFEE_SYSTEM_STATE_ACTIONS
+from agents.coffee.coffee_config import (
+    COFFEE_STATE_ACTIONS,
+    COFFEE_SYSTEM_STATE_ACTIONS,
+)
 from core.fsm import StateMachine
 
 

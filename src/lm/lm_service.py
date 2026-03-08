@@ -3,12 +3,15 @@ import json
 from lm.lm_client import ask_model
 from lm.system_prompts import analyze_confidence_system_prompt
 
+
 def predict_metric(context, criteria):
-    response = ask_model(analyze_confidence_system_prompt, json.dumps(context), {
-        "temperature": 0,
-        "reasoning": "off"
-    })
+    response = ask_model(
+        analyze_confidence_system_prompt,
+        json.dumps(context),
+        {"temperature": 0, "reasoning": "off"},
+    )
     return sanitize_metric_response(response, criteria)
+
 
 def sanitize_metric_response(response, criteria):
     extracted_word = None
@@ -24,5 +27,5 @@ def sanitize_metric_response(response, criteria):
 
     print(f"extracted_word {extracted_word}")
     print(f"num_of_occurrences {num_of_occurrences}")
-    
+
     return extracted_word if num_of_occurrences == 1 else None

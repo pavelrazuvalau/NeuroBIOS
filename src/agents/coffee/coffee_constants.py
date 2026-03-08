@@ -8,6 +8,7 @@ class CoffeeState(str, Enum):
     ANALYZE = "ANALYZE"
     SERVE = "SERVE"
 
+
 class CoffeeFlow(str, Enum):
     BLACK_COFFEE = "BLACK_COFFEE"
     CAPUCINO = "CAPUCINO"
