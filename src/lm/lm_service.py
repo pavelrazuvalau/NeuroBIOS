@@ -1,14 +1,13 @@
 import json
 
-from lm.lm_client import ask_model
+from lm.lm_client import prompt_model
 from lm.system_prompts import analyze_confidence_system_prompt
 
 
 def predict_metric(context, criteria):
-    response = ask_model(
+    response = prompt_model(
         analyze_confidence_system_prompt,
         json.dumps(context),
-        {"temperature": 0, "reasoning": "off"},
     )
     return sanitize_metric_response(response, criteria)
 

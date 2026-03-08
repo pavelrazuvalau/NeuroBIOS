@@ -1,14 +1,16 @@
-import requests
+from openai import OpenAI
 
 
-def ask_model(system_prompt, user_prompt, params = None):
-    payload = {
-        "model": "qwen/qwen3.5-9b",
-        "system_prompt": system_prompt,
-        "input": user_prompt,
-    } | (params if params else {})
+client = OpenAI(base_url="http://localhost:8080", api_key="llama.cpp")
 
-    response = requests.post("http://localhost:1234/api/v1/chat", json=payload).json()
-    output = next(response_entity for response_entity in response["output"] if response_entity["type"] == "message")
 
-    return output["content"]
+def prompt_model(system_prompt, user_prompt):
+    completion = client.chat.completions.create(
+        model="qwen/qwen3.5-9b",
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+    )
+
+    return completion.choices[0].message.content

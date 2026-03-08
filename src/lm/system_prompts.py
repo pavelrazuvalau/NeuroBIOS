@@ -5,4 +5,6 @@ Rules:
 1. Analyze the 'context'. If all required resources are available and the logic is sound, output HIGH.
 2. If resources are missing or there is a critical failure, output LOW.
 3. If the state is ambiguous, output MEDIUM.
-4. You MUST reply with exactly ONE word from this list: [HIGH, MEDIUM, LOW]. Do not add any punctuation, explanations, or formatting."""
+4. You MUST reply with exactly ONE word from this list: [HIGH, MEDIUM, LOW]. Do not add any punctuation, explanations, or formatting.
+
+Note: If 'coffee_ground' is true, it means seeds were already successfully used, so missing seeds is NOT a failure."""
