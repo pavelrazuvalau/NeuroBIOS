@@ -14,21 +14,19 @@ kanban-plugin: board
 
 ## Todo
 
-- [ ] [LM] Implement ChatML Prompt Builder
-- [ ] [Integration] Switch lm_client to raw /completion endpoint
-- [ ] [Integration] Implement Agentic Memory (Message History)
-- [ ] [Integration] Create PLANNER and TOOL_EXECUTOR states
 - [ ] [FSM] Create TOOL_EXECUTOR dynamic routing
 
 
 ## In progress
 
-- [ ] [LM] Setup llama.cpp server for raw completions
+- [ ] [Integration] Create PLANNER and TOOL_EXECUTOR states
 
 
 ## Done
 
 **Complete**
+- [x] [Integration] Implement Agentic Memory (Message History)
+- [x] [LM] Replace raw requests with OpenAI SDK
 - [x] [LM] Define Tool Schemas
 - [x] [LM] Integrate LLM for basic responses
 - [x] [Integration] Invoke LLM from FSM: pass context, next steps

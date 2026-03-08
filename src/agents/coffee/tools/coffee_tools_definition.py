@@ -4,29 +4,43 @@ from lm.lm_service import predict_metric
 
 
 def grind_coffee(context):
+    state = context.get("state", {})
+
     return {
         "result": "Grinding coffee...",
         "context_update": {
-            "coffee_ground": context.get("seeds_available"),
-            "seeds_available": False,
+            "messages": [{"role": "assistant", "content": "I grinded coffee"}],
+            "state": {
+                "coffee_ground": state.get("seeds_available", False),
+                "seeds_available": False,
+            },
         },
     }
 
 
 def pour_water(context):
+    state = context.get("state", {})
+    is_success = state.get("coffee_ground", False)
+
     return {
-        "success": context.get("coffee_ground"),
+        "success": is_success,
         "result": (
             "Pouring water..."
-            if context.get("coffee_ground")
+            if is_success
             else "Oops... Looks like we're just pouring water: out of coffee!"
         ),
+        "context_update": {
+            "messages": [{"role": "assistant", "content": "I poured watter"}],
+        },
     }
 
 
 def pour_milk(context):
     return {
         "result": "Pouring milk...",
+        "context_update": {
+            "messages": [{"role": "assistant", "content": "I poured milk"}],
+        },
     }
 
 
@@ -35,8 +49,16 @@ def analyze_quality(context):
 
     payload = {
         "result": "Analyzing the quality...",
-        "context_update": {"confidence": confidence_level},
+        "context_update": {"state": {"confidence": confidence_level}},
         "success": confidence_level is not None,
+        "context_update": {
+            "messages": [
+                {
+                    "role": "assistant",
+                    "content": f"I analyzed the quality. The quality is {confidence_level}",
+                }
+            ],
+        },
     }
 
     next_step_prediction = (
@@ -49,7 +71,17 @@ def analyze_quality(context):
 
 
 def serve_drink(context):
-    return {"result": "Enjoy your drink!"}
+    return {
+        "result": "Enjoy your drink!",
+        "context_update": {
+            "messages": [
+                {
+                    "role": "assistant",
+                    "content": "I successfully served the beverage to the user",
+                }
+            ],
+        },
+    }
 
 
 def end_flow(context):

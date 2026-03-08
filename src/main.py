@@ -7,12 +7,12 @@ def main():
     coffee_agent = CoffeeAgent()
 
     print("Making Capucino:")
-    coffee_agent.run(COFFEE_FLOWS[CoffeeFlow.CAPUCINO], {"seeds_available": False})
+    coffee_agent.run(COFFEE_FLOWS[CoffeeFlow.CAPUCINO], {"messages": [{"role": "user", "content": "Make me Capucino"}], "state": {"seeds_available": False}})
 
     print("\n")
 
     print("Making Flat White:")
-    coffee_agent.run(COFFEE_FLOWS[CoffeeFlow.FLAT_WHITE], {"seeds_available": True})
+    coffee_agent.run(COFFEE_FLOWS[CoffeeFlow.FLAT_WHITE], {"messages": [{"role": "user", "content": "Make me Flat White"}], "state": {"seeds_available": True}})
 
 
 if __name__ == "__main__":
