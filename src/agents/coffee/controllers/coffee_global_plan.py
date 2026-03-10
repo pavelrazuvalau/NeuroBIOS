@@ -1,19 +1,19 @@
 import json
 
 from lm.lm_service import send_messages
-from agents.coffee.prompts.coffee_plan_prompt import plan_system_prompt
+from agents.coffee.prompts.coffee_macro_plan_prompt import macro_plan_system_prompt
 
 
-def plan(context):
+def plan_task(context):
     response = send_messages(
         [
-            {"role": "system", "content": plan_system_prompt},
+            {"role": "system", "content": macro_plan_system_prompt},
             {"role": "user", "content": json.dumps(context)},
         ]
     )
 
     return {
-        "result": response,
+        "result": "Planning complete",
         "context_update": {
             "messages": [{"role": "assistant", "content": response}],
         },

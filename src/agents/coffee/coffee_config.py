@@ -1,17 +1,32 @@
-from agents.coffee.coffee_constants import CoffeeBeverage, CoffeeStep, CoffeeFlowState
-from agents.coffee.tools.execute import coffee_execute_tools
-from agents.coffee.tools.plan import coffee_plan_tools
+from agents.coffee.coffee_constants import CoffeeFlowState
+from agents.coffee.controllers import (
+    coffee_global_plan,
+    coffee_next_step_plan,
+    coffee_execute,
+    coffee_verify,
+    coffee_summarize,
+    coffee_system,
+)
 from core.constants import SystemState
 
 
-COFFEE_FLOW = (CoffeeFlowState.PLAN, CoffeeFlowState.EXECUTE)
+COFFEE_FLOW = (
+    CoffeeFlowState.GLOBAL_PLAN,
+    CoffeeFlowState.NEXT_STEP_PLAN,
+    CoffeeFlowState.EXECUTE,
+    CoffeeFlowState.VERIFY,
+    CoffeeFlowState.SUMMARIZE,
+)
 
 COFFEE_FLOW_ACTIONS = {
-    CoffeeFlowState.PLAN: coffee_plan_tools.plan,
-    CoffeeFlowState.EXECUTE: coffee_execute_tools.execute,
+    CoffeeFlowState.GLOBAL_PLAN: coffee_global_plan.plan_task,
+    CoffeeFlowState.NEXT_STEP_PLAN: coffee_next_step_plan.plan_next_step,
+    CoffeeFlowState.EXECUTE: coffee_execute.execute,
+    CoffeeFlowState.VERIFY: coffee_verify.verify,
+    CoffeeFlowState.SUMMARIZE: coffee_summarize.summarize,
 }
 
 COFFEE_SYSTEM_STATE_ACTIONS = {
-    SystemState.END: coffee_execute_tools.end_flow,
-    SystemState.ESCALATE: coffee_execute_tools.escalate_flow,
+    SystemState.END: coffee_system.end_flow,
+    SystemState.ESCALATE: coffee_system.escalate_flow,
 }

@@ -14,14 +14,14 @@ class StateMachine:
         self._actions = self._system_actions | self._flow_actions
 
         self._is_unhandled_failure_occurred = False
-        self._next_state_override = None
+        self._next_state = None
 
     def set_flow(self, flow_states, context=None):
         if not flow_states:
             raise ValueError("Error: Flow cannot be empty")
 
         self.state = flow_states[0]
-        self.context = context if context else {}
+        self.context = context or {}
         self.is_flow_running = True
 
         self._flow_states = flow_states
@@ -30,9 +30,9 @@ class StateMachine:
         return {"state": self.state.name, "context": self.context}
 
     def go_to_next_state(self):
-        if self._next_state_override:
-            self._set_state(self._next_state_override, True)
-            self._next_state_override = None
+        if self._next_state:
+            self._set_state(self._next_state, True)
+            self._next_state = None
             self.is_flow_running = True
             return
 
@@ -68,7 +68,7 @@ class StateMachine:
             context_update = response.get("context_update", {})
             self._merge_context(context_update)
 
-            self._next_state_override = response.get("next_state_override", None)
+            self._next_state = response.get("next_state", None)
 
             is_success = response.get("success", True)
             self._is_unhandled_failure_occurred = not is_success

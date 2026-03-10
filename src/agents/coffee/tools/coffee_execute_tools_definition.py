@@ -1,14 +1,3 @@
-from agents.coffee.coffee_constants import CoffeeStep
-from lm.lm_constants import CONFIDENCE_LEVELS
-from lm.lm_service import predict_metric
-
-
-def execute(context):
-    return {
-        "result": "Making coffee...",
-    }
-
-
 def grind_coffee(context):
     state = context.get("state", {})
 
@@ -50,32 +39,6 @@ def pour_milk(context):
     }
 
 
-def analyze_quality(context):
-    confidence_level = predict_metric(context, CONFIDENCE_LEVELS)
-
-    payload = {
-        "result": "Analyzing the quality...",
-        "context_update": {"state": {"confidence": confidence_level}},
-        "success": confidence_level is not None,
-        "context_update": {
-            "messages": [
-                {
-                    "role": "assistant",
-                    "content": f"I analyzed the quality. The quality is {confidence_level}",
-                }
-            ],
-        },
-    }
-
-    next_step_prediction = (
-        {"next_state_override": CoffeeStep.GRIND_COFFEE}
-        if confidence_level == "LOW"
-        else {}
-    )
-
-    return payload | next_step_prediction
-
-
 def serve_drink(context):
     return {
         "result": "Enjoy your drink!",
@@ -87,14 +50,4 @@ def serve_drink(context):
                 }
             ],
         },
-    }
-
-
-def end_flow(context):
-    return {"result": "EOF"}
-
-
-def escalate_flow(context):
-    return {
-        "result": f"Warning! Flow is interrupted. User attention required: {context}"
     }

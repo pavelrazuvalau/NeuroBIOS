@@ -1,7 +1,7 @@
 from agents.coffee.coffee_constants import COFFEE_MENU
 
 
-plan_system_prompt = f"""
+macro_plan_system_prompt = f"""
     You are the central brain of an autonomous coffee maker.
 
     Your task is to plan steps for making beverage specified by the user.

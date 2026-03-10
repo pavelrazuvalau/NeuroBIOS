@@ -15,8 +15,8 @@ class CoffeeAgent:
 
     def _run_fsm(self):
         while self._fsm.is_flow_running:
+            print(f"\nCurrent step: {self._fsm.get_state()["state"]}")
             step_result = self._fsm.execute_state()
-            print(f"Current step: {self._fsm.get_state()["state"]}")
-            print(f"Current result:\n{step_result}")
+            print(f"Current result: {step_result}")
 
             self._fsm.go_to_next_state()
