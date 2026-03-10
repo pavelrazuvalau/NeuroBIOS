@@ -4,10 +4,16 @@ from lm.lm_client import prompt_model
 from lm.system_prompts import analyze_confidence_system_prompt
 
 
+def send_messages(messages):
+    return prompt_model(messages)
+
+
 def predict_metric(context, criteria):
-    response = prompt_model(
-        analyze_confidence_system_prompt,
-        json.dumps(context),
+    response = send_messages(
+        [
+            {"role": "system", "content": analyze_confidence_system_prompt},
+            {"role": "user", "content": json.dumps(context)},
+        ]
     )
     return sanitize_metric_response(response, criteria)
 

@@ -1,6 +1,12 @@
-from agents.coffee.coffee_constants import CoffeeState
+from agents.coffee.coffee_constants import CoffeeStep
 from lm.lm_constants import CONFIDENCE_LEVELS
 from lm.lm_service import predict_metric
+
+
+def execute(context):
+    return {
+        "result": "Making coffee...",
+    }
 
 
 def grind_coffee(context):
@@ -62,7 +68,7 @@ def analyze_quality(context):
     }
 
     next_step_prediction = (
-        {"next_state_override": CoffeeState.GRIND_COFFEE}
+        {"next_state_override": CoffeeStep.GRIND_COFFEE}
         if confidence_level == "LOW"
         else {}
     )

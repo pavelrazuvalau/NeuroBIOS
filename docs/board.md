@@ -14,17 +14,19 @@ kanban-plugin: board
 
 ## Todo
 
+- [ ] [Integration] Create EXECUTE state
 - [ ] [FSM] Create TOOL_EXECUTOR dynamic routing
 
 
 ## In progress
 
-- [ ] [Integration] Create PLANNER and TOOL_EXECUTOR states
+- [ ] [Integration] Stream response
 
 
 ## Done
 
 **Complete**
+- [x] [Integration] Create PLAN state
 - [x] [Integration] Implement Agentic Memory (Message History)
 - [x] [LM] Replace raw requests with OpenAI SDK
 - [x] [LM] Define Tool Schemas

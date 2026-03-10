@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class CoffeeState(str, Enum):
+class CoffeeStep(str, Enum):
     GRIND_COFFEE = "GRIND_COFFEE"
     POUR_WATER = "POUR_WATER"
     POUR_MILK = "POUR_MILK"
@@ -9,7 +9,33 @@ class CoffeeState(str, Enum):
     SERVE = "SERVE"
 
 
-class CoffeeFlow(str, Enum):
+class CoffeeBeverage(str, Enum):
     BLACK_COFFEE = "BLACK_COFFEE"
     CAPUCINO = "CAPUCINO"
     FLAT_WHITE = "FLAT_WHITE"
+
+
+class CoffeeFlowState(str, Enum):
+    PLAN = "PLAN"
+    EXECUTE = "EXECUTE"
+
+
+COFFEE_MENU = {
+    CoffeeBeverage.BLACK_COFFEE: (
+        CoffeeStep.GRIND_COFFEE,
+        CoffeeStep.POUR_WATER,
+        CoffeeStep.SERVE,
+    ),
+    CoffeeBeverage.CAPUCINO: (
+        CoffeeStep.POUR_MILK,
+        CoffeeStep.GRIND_COFFEE,
+        CoffeeStep.POUR_WATER,
+        CoffeeStep.SERVE,
+    ),
+    CoffeeBeverage.FLAT_WHITE: (
+        CoffeeStep.GRIND_COFFEE,
+        CoffeeStep.POUR_WATER,
+        CoffeeStep.POUR_MILK,
+        CoffeeStep.SERVE,
+    ),
+}
