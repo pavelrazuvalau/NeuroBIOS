@@ -14,7 +14,7 @@ def plan_task(context):
 
     return {
         "result": "Planning complete",
-        "context_update": {
+        "context_delta": {
             "messages": [{"role": "assistant", "content": response}],
         },
     }

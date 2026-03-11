@@ -4,7 +4,6 @@ from core.constants import SYSTEM_STOP_STATES, SystemState
 class StateMachine:
     def __init__(self, flow_actions, system_actions=None):
         self.state = SystemState.IDLE
-        self.context = {}
         self.is_flow_running = False
 
         self._flow_states = tuple()
@@ -16,18 +15,14 @@ class StateMachine:
         self._is_unhandled_failure_occurred = False
         self._next_state = None
 
-    def set_flow(self, flow_states, context=None):
+    def set_flow(self, flow_states):
         if not flow_states:
             raise ValueError("Error: Flow cannot be empty")
 
         self.state = flow_states[0]
-        self.context = context or {}
         self.is_flow_running = True
 
         self._flow_states = flow_states
-
-    def get_state(self):
-        return {"state": self.state.name, "context": self.context}
 
     def go_to_next_state(self):
         if self._next_state:
@@ -59,21 +54,18 @@ class StateMachine:
 
         self._set_state(next_state)
 
-    def execute_state(self):
+    def execute_state(self, context):
         current_action = self._actions.get(self.state)
 
         if current_action:
-            response = current_action(self.context) or {}
-
-            context_update = response.get("context_update", {})
-            self._merge_context(context_update)
+            response = current_action(context) or {}
 
             self._next_state = response.get("next_state", None)
 
             is_success = response.get("success", True)
             self._is_unhandled_failure_occurred = not is_success
 
-            return response.get("result")
+            return response
         else:
             print(f"No action found for state {self.state}")
             return None
@@ -97,21 +89,6 @@ class StateMachine:
         new_index = self._get_state_index(state)
 
         return new_index - current_index == 1
-
-    def _merge_context(self, context_update: dict):
-        for key, new_value in context_update.items():
-            if key not in self.context:
-                self.context[key] = new_value
-                continue
-
-            existing_entry = self.context[key]
-
-            if isinstance(existing_entry, dict) and isinstance(new_value, dict):
-                existing_entry |= new_value
-            elif isinstance(existing_entry, list) and isinstance(new_value, list):
-                existing_entry.extend(new_value)
-            else:
-                self.context[key] = new_value
 
     def _get_state_index(self, state):
         return self._flow_states.index(state)

@@ -3,7 +3,7 @@ def grind_coffee(context):
 
     return {
         "result": "Grinding coffee...",
-        "context_update": {
+        "context_delta": {
             "messages": [{"role": "assistant", "content": "I grinded coffee"}],
             "state": {
                 "coffee_ground": state.get("seeds_available", False),
@@ -24,7 +24,7 @@ def pour_water(context):
             if is_success
             else "Oops... Looks like we're just pouring water: out of coffee!"
         ),
-        "context_update": {
+        "context_delta": {
             "messages": [{"role": "assistant", "content": "I poured watter"}],
         },
     }
@@ -33,7 +33,7 @@ def pour_water(context):
 def pour_milk(context):
     return {
         "result": "Pouring milk...",
-        "context_update": {
+        "context_delta": {
             "messages": [{"role": "assistant", "content": "I poured milk"}],
         },
     }
@@ -42,7 +42,7 @@ def pour_milk(context):
 def serve_drink(context):
     return {
         "result": "Enjoy your drink!",
-        "context_update": {
+        "context_delta": {
             "messages": [
                 {
                     "role": "assistant",

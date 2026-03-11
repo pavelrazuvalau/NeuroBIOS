@@ -18,4 +18,6 @@ def prompt_model(messages):
             print(token, end="", flush=True)
             final_response += token
 
+    print()
+
     return final_response
