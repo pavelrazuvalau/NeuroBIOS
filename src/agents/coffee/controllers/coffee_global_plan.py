@@ -5,12 +5,8 @@ from agents.coffee.prompts.coffee_macro_plan_prompt import macro_plan_system_pro
 
 
 def plan_task(context):
-    response = send_messages(
-        [
-            {"role": "system", "content": macro_plan_system_prompt},
-            {"role": "user", "content": json.dumps(context)},
-        ]
-    )
+    messages_history = context.get("messages", [])
+    response = send_messages(macro_plan_system_prompt, messages_history)
 
     return {
         "result": "Planning complete",
