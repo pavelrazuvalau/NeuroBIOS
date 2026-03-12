@@ -1,7 +1,3 @@
-plan_step_step_prompt = """
-    Plan the next step in the current session.
-
-    Your response should include:
-      - a verbal description of the current step
-      - a tool call towards the goal completion
+plan_step_prompt = """
+    Plan the next step that strictly follows the initial plan order based on the conversation history. Do no skip any steps from the initial plan.
 """
