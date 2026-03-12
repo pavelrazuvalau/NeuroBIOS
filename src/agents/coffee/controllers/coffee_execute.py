@@ -1,3 +1,4 @@
+from agents.coffee.coffee_constants import CoffeeFlowState
 from agents.coffee.tools.coffee_execute_tools_definition import (
     grind_coffee,
     pour_chocolate,
@@ -45,4 +46,5 @@ def execute(context):
         "context_delta": {
             "messages": tool_responses,
         },
+        "next_state": CoffeeFlowState.NEXT_STEP_PLAN if tool_responses else None
     }

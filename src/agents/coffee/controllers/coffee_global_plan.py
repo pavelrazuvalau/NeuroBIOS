@@ -11,7 +11,7 @@ def plan_task(context):
         f"{coffee_maker_system_prompt.strip()}\n\n{plan_task_prompt.strip()}",
         messages_history,
     )
-    next_step_message = {"role": "user", "content": "Follow the plan"}
+    next_step_message = {"role": "user", "content": "Follow the plan. Describe the first step you perform"}
 
     return {
         "result": "Planning task complete",

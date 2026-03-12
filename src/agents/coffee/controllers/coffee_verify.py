@@ -15,6 +15,6 @@ def verify(context):
     return {
         "result": "Verify complete",
         "next_state": (
-            CoffeeFlowState.NEXT_STEP_PLAN if not is_session_complete else None
+            CoffeeFlowState.GLOBAL_PLAN if not is_session_complete else None
         ),
     }
