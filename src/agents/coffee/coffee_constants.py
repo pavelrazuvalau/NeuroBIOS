@@ -22,38 +22,31 @@ class CoffeeStep(str, Enum):
     POUR_WATER = "POUR_WATER"
     POUR_MILK = "POUR_MILK"
     POUR_CHOCOLATE = "POUR_CHOCOLATE"
-    ANALYZE = "ANALYZE"
-    READY_TO_SERVE = "READY_TO_SERVE"
 
 
 COFFEE_MENU = {
     CoffeeBeverage.BLACK_COFFEE: (
         CoffeeStep.GRIND_COFFEE,
         CoffeeStep.POUR_WATER,
-        CoffeeStep.READY_TO_SERVE,
     ),
     CoffeeBeverage.CAPUCINO: (
         CoffeeStep.POUR_MILK,
         CoffeeStep.GRIND_COFFEE,
         CoffeeStep.POUR_WATER,
-        CoffeeStep.READY_TO_SERVE,
     ),
     CoffeeBeverage.FLAT_WHITE: (
         CoffeeStep.GRIND_COFFEE,
         CoffeeStep.POUR_WATER,
         CoffeeStep.POUR_MILK,
-        CoffeeStep.READY_TO_SERVE,
     ),
     CoffeeBeverage.HOT_CHOCOLATE: (
         CoffeeStep.POUR_CHOCOLATE,
         CoffeeStep.POUR_MILK,
-        CoffeeStep.READY_TO_SERVE,
     ),
     CoffeeBeverage.MOCHA: (
         CoffeeStep.POUR_CHOCOLATE,
         CoffeeStep.GRIND_COFFEE,
         CoffeeStep.POUR_WATER,
         CoffeeStep.POUR_MILK,
-        CoffeeStep.READY_TO_SERVE,
     ),
 }

@@ -1,39 +1,18 @@
-def grind_coffee(context):
-    return {
-        "result": "Grinding coffee...",
-        "context_delta": {
-            "messages": [{"role": "assistant", "content": "I grinded coffee"}],
-        },
-    }
+def grind_coffee(args):
+    print("\n[TOOL CALL]: grind_coffee\n")
+    return "OK"
 
 
-def pour_water(context):
-    return {
-        "result": "Pouring water...",
-        "context_delta": {
-            "messages": [{"role": "assistant", "content": "I poured watter"}],
-        },
-    }
+def pour_water(args):
+    print("\n[TOOL CALL]: pour_water\n")
+    return "OK"
 
 
-def pour_milk(context):
-    return {
-        "result": "Pouring milk...",
-        "context_delta": {
-            "messages": [{"role": "assistant", "content": "I poured milk"}],
-        },
-    }
+def pour_milk(args):
+    print("\n[TOOL CALL]: pour_milk\n")
+    return "OK"
 
 
-def serve_drink(context):
-    return {
-        "result": "Enjoy your drink!",
-        "context_delta": {
-            "messages": [
-                {
-                    "role": "assistant",
-                    "content": "I successfully served the beverage to the user",
-                }
-            ],
-        },
-    }
+def pour_chocolate(args):
+    print("\n[TOOL CALL]: pour_chocolate\n")
+    return "OK"

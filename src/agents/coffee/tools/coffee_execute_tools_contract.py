@@ -25,11 +25,11 @@ POUR_MILK_SCHEMA = {
     },
 }
 
-SERVE_DRINK_SCHEMA = {
+POUR_CHOCOLATE_SCHEMA = {
     "type": "function",
     "function": {
-        "name": "serve_drink",
-        "description": "Serves the prepared drink to the user. Call this tool to finish the process when all other steps are completed",
+        "name": "pour_chocolate",
+        "description": "Pours chocolate into the cup. Use this only if the drink recipe requires chocolate (like Hot Chocolate or Mocha)",
         "parameters": {"type": "object", "properties": {}, "required": []},
     },
 }
@@ -38,5 +38,5 @@ COFFEE_TOOLS_LIST = [
     GRIND_COFFEE_SCHEMA,
     POUR_WATER_SCHEMA,
     POUR_MILK_SCHEMA,
-    SERVE_DRINK_SCHEMA,
+    POUR_CHOCOLATE_SCHEMA,
 ]
