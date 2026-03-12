@@ -1,4 +1,5 @@
 from agents.coffee.coffee_constants import CoffeeFlowState
+from agents.coffee.prompts.system.coffee_maker_system_prompt import coffee_maker_system_prompt
 from lm.lm_service import predict_metric
 from agents.coffee.prompts.task.coffee_verify_prompt import verify_task_prompt
 
@@ -6,12 +7,8 @@ from agents.coffee.prompts.task.coffee_verify_prompt import verify_task_prompt
 def verify(context):
     messages_history = context.get("messages", [])
 
-    # Interrupt context inertia
-    analyze_message = {"role": "user", "content": verify_task_prompt.strip()}
-    history_analysis_copy = messages_history + [analyze_message]
-
     response = predict_metric(
-        verify_task_prompt.strip(), history_analysis_copy, ("True", "False")
+        f"{coffee_maker_system_prompt.strip()}\n\n{verify_task_prompt.strip()}", messages_history, ("True", "False")
     )
     is_session_complete = response == "True"
 
