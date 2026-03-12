@@ -20,7 +20,8 @@ class CoffeeAgent:
 
     def _run_fsm(self):
         while self._fsm.is_flow_running:
-            print(f"\n[Current step]: {self._fsm.state.name}")
+            # print(self._context_history)
+            # print(f"\n[Current step]: {self._fsm.state.name}")
             step_response = self._fsm.execute_state(self._context_history)
             # print(f"[Current step response]: {step_response}")
 

@@ -1,18 +1,18 @@
 def grind_coffee(args):
-    print("\n[TOOL CALL]: grind_coffee\n")
+    print("[TOOL CALL]: grind_coffee")
     return "OK"
 
 
 def pour_water(args):
-    print("\n[TOOL CALL]: pour_water\n")
+    print("[TOOL CALL]: pour_water")
     return "OK"
 
 
 def pour_milk(args):
-    print("\n[TOOL CALL]: pour_milk\n")
+    print("[TOOL CALL]: pour_milk")
     return "OK"
 
 
 def pour_chocolate(args):
-    print("\n[TOOL CALL]: pour_chocolate\n")
+    print("[TOOL CALL]: pour_chocolate")
     return "OK"
