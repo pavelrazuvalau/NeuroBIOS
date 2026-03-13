@@ -9,7 +9,8 @@ def summarize(context):
     print("\n")
 
     messages_history = context.get("messages", [])
-    response = send_messages(f"{coffee_maker_system_prompt.strip()}\n\n{summarize_task_prompt.strip()}", messages_history)
+    messages_history.append({"role": "user", "content": summarize_task_prompt.strip()})
+    response = send_messages(coffee_maker_system_prompt, messages_history)
 
     return {
         "result": "Summarize task complete",

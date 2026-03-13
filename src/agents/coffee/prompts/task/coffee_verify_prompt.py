@@ -1,9 +1,14 @@
-verify_task_prompt = f"""
-    Analyze the current session and give a verdict on the task completion based on the conversation history.
+analyze_completion_prompt = f"""
+    Analyze the conversation history for a plan, step results, and compare the initial plan with the executed steps to give a verdict on the task completion.
+"""
 
-    You're allowed to answer with an exact word in the list: [True, False]
+verify_task_prompt = f"""
+    Analyze the conversation history for a plan, step results, and compare the initial plan with the executed steps.
 
     Rules:
-    - All steps are done: True
-    - There're ongoing steps to complete task: False
+    - If all planned steps are fully executed and confirmed: output True
+    - If any planned step is missing, pending, or not yet started: output False
+
+    Now analyze the current session.
+    Output EXACTLY ONE WORD: True or False.
 """
