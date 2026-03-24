@@ -1,18 +1,13 @@
 from lm.lm_client import prompt_model
 
 
-def send_messages(system_prompt, messages_history, **params):
-    messages_to_send = [
-        {"role": "system", "content": system_prompt},
-        *messages_history,
-    ]
-    return prompt_model(messages_to_send, params)
+def send_messages(messages, **params):
+    return prompt_model(messages, params)
 
 
-def predict_metric(system_prompt, messages_history, criteria):
+def predict_metric(messages, criteria):
     response = send_messages(
-        system_prompt,
-        messages_history,
+        messages,
         hide_output=True
     )
 

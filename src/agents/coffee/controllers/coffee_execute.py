@@ -14,9 +14,9 @@ COFFEE_TOOLS_REGISTRY = {
 }
 
 
-def execute(context):
-    messages_history = context.get("messages", [])
-    last_message = messages_history[-1]
+def execute(**kwargs):
+    context = kwargs.get("context", [])
+    last_message = context[-1]
     tool_calls = last_message.get("tool_calls", None)
 
     tool_responses = []
@@ -43,8 +43,6 @@ def execute(context):
 
     return {
         "result": "Execute complete",
-        "context_delta": {
-            "messages": tool_responses,
-        },
+        "context_delta": tool_responses,
         "next_state": CoffeeFlowState.NEXT_STEP_PLAN if tool_responses else None
     }

@@ -54,11 +54,11 @@ class StateMachine:
 
         self._set_state(next_state)
 
-    def execute_state(self, context):
+    def execute_state(self, **kwargs):
         current_action = self._actions.get(self.state)
 
         if current_action:
-            response = current_action(context) or {}
+            response = current_action(**kwargs) or {}
 
             self._next_state = response.get("next_state", None)
 
