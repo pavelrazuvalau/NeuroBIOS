@@ -6,4 +6,5 @@ plan_step_prompt = """
       - When the history contains a tool call that returned a result, verify whether it's successful.
       - When the recent tool call has failed, run it again.
       - Call a tool that strictly follows the order of the plan. Do no skip any steps from the initial plan.
+      - When the task is fully completed: summarize the job done by you, which includes steps you did, and the outcome.
 """

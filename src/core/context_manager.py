@@ -1,7 +1,7 @@
-from lm.lm_constants import MessageRole
+from core.constants import MessageRole
 
 
-class ContextStore:
+class ContextManager:
     def __init__(self, history: list | None = None):
         self._history = history or []
 
