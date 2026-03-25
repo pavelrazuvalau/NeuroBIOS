@@ -20,6 +20,6 @@ def plan_next_step(**kwargs):
     context_manager = ContextManager(context)
     context_with_system_prompt = context_manager.get_history_with_system_prompt(system_prompt)
 
-    response = send_messages(context_with_system_prompt, tools=COFFEE_TOOLS_LIST, stream=False)
+    response = send_messages(context_with_system_prompt, tools=COFFEE_TOOLS_LIST)
 
     return {"result": "Planning step complete", "context_delta": [response]}

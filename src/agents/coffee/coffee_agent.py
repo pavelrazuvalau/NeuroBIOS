@@ -23,8 +23,6 @@ class CoffeeAgent:
 
     def _run_fsm(self):
         while self._fsm.is_flow_running:
-            # print(f"\n[Current step]: {self._fsm.state.name}")
-
             current_context = self._context_manager.get_messages_history()
 
             step_response = (
@@ -33,8 +31,6 @@ class CoffeeAgent:
                 )
                 or {}
             )
-
-            # print(f"[Current step response]: {step_response}")
 
             step_messages_delta = step_response.get("context_delta", {})
             step_state_delta = step_response.get("state_delta", {})

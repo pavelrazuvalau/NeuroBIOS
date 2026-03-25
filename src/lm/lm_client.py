@@ -12,20 +12,22 @@ def prompt_model(messages, params):
         "stream": True,
         "extra_body": {"reasoning": {"enabled": False}},
     }
-    hide_output = params.pop("hide_output", False)
 
     request_payload.update(params)
     response = client.chat.completions.create(**request_payload)
 
     return (
-        _handle_streamed_response(response, hide_output)
+        _handle_streamed_response(response)
         if request_payload.get("stream")
         else _handle_static_response(response)
     )
 
 
-def _handle_streamed_response(response, hide_output=False):
+def _handle_streamed_response(response):
     accumulated_content = ""
+    accumulated_tool_calls = []
+
+    print("\n")
 
     for chunk in response:
         # ignore service chunks
@@ -34,16 +36,40 @@ def _handle_streamed_response(response, hide_output=False):
 
         delta = chunk.choices[0].delta
         # print(f"chunk: {delta}")
-        token = delta.content
+        content_token = delta.content
+        tool_calls_delta = delta.tool_calls
 
-        if token:
-            # TODO: remove condition
-            if not hide_output:
-                print(token, end="", flush=True)
+        if content_token:
+            # TODO: stream outside the function
+            print(content_token, end="", flush=True)
 
-            accumulated_content += token
+            accumulated_content += content_token
 
-    return _format_final_response(accumulated_content)
+        if tool_calls_delta:
+            for tool_call_chunk in tool_calls_delta:
+                current_tool_call_index = tool_call_chunk.index
+                is_accumulated_tool_call_index_exist = (
+                    0 <= current_tool_call_index < len(accumulated_tool_calls)
+                )
+
+                if not is_accumulated_tool_call_index_exist:
+                    accumulated_tool_calls.append(
+                        {
+                            "id": tool_call_chunk.id,
+                            "type": "function",
+                            "function": {
+                                "name": tool_call_chunk.function.name,
+                                "arguments": "",
+                            },
+                        }
+                    )
+
+                if tool_call_chunk.function.arguments:
+                    accumulated_tool_calls[current_tool_call_index]["function"][
+                        "arguments"
+                    ] += tool_call_chunk.function.arguments
+
+    return _format_final_response(accumulated_content, accumulated_tool_calls)
 
 
 def _handle_static_response(response):
