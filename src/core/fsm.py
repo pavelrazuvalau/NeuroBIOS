@@ -1,3 +1,5 @@
+import inspect
+
 from core.constants import SYSTEM_STOP_STATES, SystemState
 
 
@@ -58,14 +60,19 @@ class StateMachine:
         current_action = self._actions.get(self.state)
 
         if current_action:
-            response = current_action(**kwargs) or {}
+            response = current_action(**kwargs)
+            result = (
+                (yield from response)
+                if inspect.isgenerator(response)
+                else response or {}
+            )
 
-            self._next_state = response.get("next_state", None)
+            self._next_state = result.get("next_state", None)
 
-            is_success = response.get("success", True)
+            is_success = result.get("success", True)
             self._is_unhandled_failure_occurred = not is_success
 
-            return response
+            return result
         else:
             print(f"No action found for state {self.state}")
             return None

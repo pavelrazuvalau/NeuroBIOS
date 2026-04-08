@@ -4,7 +4,6 @@ from openai import OpenAI
 client = OpenAI(base_url="http://localhost:8080", api_key="llama.cpp")
 
 
-# TODO: replace print with returning and handling the stream outside
 def prompt_model(messages, params):
     request_payload = {
         "model": "qwen/qwen3.5-9b",
@@ -27,8 +26,6 @@ def _handle_streamed_response(response):
     accumulated_content = ""
     accumulated_tool_calls = []
 
-    print("\n")
-
     for chunk in response:
         # ignore service chunks
         if not chunk.choices:
@@ -40,9 +37,7 @@ def _handle_streamed_response(response):
         tool_calls_delta = delta.tool_calls
 
         if content_token:
-            # TODO: stream outside the function
-            print(content_token, end="", flush=True)
-
+            yield content_token
             accumulated_content += content_token
 
         if tool_calls_delta:
@@ -76,8 +71,6 @@ def _handle_static_response(response):
     message = response.choices[0].message
     content = message.content
     tool_calls = message.tool_calls
-
-    print("\n", content or "")
 
     accumulated_tool_calls = []
 

@@ -6,7 +6,7 @@ def send_messages(messages, **params):
 
 
 def predict_metric(messages, criteria):
-    response = send_messages(messages)
+    response = send_messages(messages, stream=False)
 
     content = response.get("content", "")
     return sanitize_metric_response(content, criteria)

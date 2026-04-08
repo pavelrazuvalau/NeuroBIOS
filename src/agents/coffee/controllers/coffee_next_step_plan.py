@@ -1,3 +1,5 @@
+import inspect
+
 from agents.coffee.tools.coffee_execute_tools_contract import COFFEE_TOOLS_LIST
 from core.context_manager import ContextManager
 from lm.lm_service import send_messages
@@ -21,5 +23,6 @@ def plan_next_step(**kwargs):
     context_with_system_prompt = context_manager.get_history_with_system_prompt(system_prompt)
 
     response = send_messages(context_with_system_prompt, tools=COFFEE_TOOLS_LIST)
+    result = (yield from response) if inspect.isgenerator(response) else response
 
-    return {"result": "Planning step complete", "context_delta": [response]}
+    return {"result": "Planning step complete", "context_delta": [result]}
