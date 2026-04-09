@@ -5,6 +5,7 @@ from agents.coffee.tools.coffee_execute_tools_definition import (
     pour_milk,
     pour_water,
 )
+from core.constants import StreamingEvent
 
 COFFEE_TOOLS_REGISTRY = {
     "grind_coffee": grind_coffee,
@@ -33,7 +34,10 @@ def execute(**kwargs):
             if action_function:
                 function_result = action_function(function_arguments)
 
-                yield {"type": "tool_call", "name": function_name, "args": function_arguments}
+                yield {
+                    "event": StreamingEvent.TOOL_CALL,
+                    "payload": {"name": function_name, "arguments": function_arguments},
+                }
 
                 tool_responses.append(
                     {
@@ -47,5 +51,5 @@ def execute(**kwargs):
     return {
         "result": "Execute complete",
         "context_delta": tool_responses,
-        "next_state": CoffeeFlowState.NEXT_STEP_PLAN if tool_responses else None
+        "next_state": CoffeeFlowState.NEXT_STEP_PLAN if tool_responses else None,
     }

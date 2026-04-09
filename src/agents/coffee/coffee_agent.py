@@ -5,7 +5,7 @@ from agents.coffee.coffee_config import (
     COFFEE_FLOW_ACTIONS,
     COFFEE_SYSTEM_STATE_ACTIONS,
 )
-from core.constants import MessageRole
+from core.constants import MessageRole, StreamingEvent
 from core.fsm import StateMachine
 from core.utils import deep_merge
 from core.context_manager import ContextManager
@@ -27,6 +27,8 @@ class CoffeeAgent:
         while self._fsm.is_flow_running:
             current_context = self._context_manager.get_messages_history()
 
+            yield {"event": StreamingEvent.EXECUTING_NEXT_STEP, "payload": {}}
+
             step_response = self._fsm.execute_state(
                 context=current_context, state=self._agent_state
             )
@@ -44,6 +46,8 @@ class CoffeeAgent:
             self._update_agent_state(step_state_delta)
 
             self._fsm.go_to_next_state()
+
+        yield {"event": StreamingEvent.RESPONSE_END, "payload": {}}
 
     def _update_agent_state(self, delta):
         deep_merge(self._agent_state, delta)

@@ -1,5 +1,7 @@
 from openai import OpenAI
 
+from core.constants import StreamingEvent
+
 
 client = OpenAI(base_url="http://localhost:8080", api_key="llama.cpp")
 
@@ -31,15 +33,29 @@ def _handle_streamed_response(response):
             continue
 
         delta = chunk.choices[0].delta
-        content_token = getattr(delta, "content", None)
-        reasoning_token = getattr(delta, "reasoning_content", None)
-        tool_calls_delta = getattr(delta, "tool_calls", None)
+        content_token = delta.content
+        tool_calls_delta = delta.tool_calls
+        reasoning_token = None
+
+        # There's inconsistency among providers related to streaming of reasoning tokens
+        # llama.cpp
+        if hasattr(delta, "reasoning_content"):
+            reasoning_token = delta.reasoning_content
+        # OpenRouter
+        elif hasattr(delta, "reasoning"):
+            reasoning_token = delta.reasoning
 
         if reasoning_token:
-            yield {"type": "reasoning_content", "delta": reasoning_token}
+            yield {
+                "event": StreamingEvent.REASONING_STREAM,
+                "payload": {"content": reasoning_token},
+            }
 
         if content_token:
-            yield {"type": "content", "delta": content_token}
+            yield {
+                "event": StreamingEvent.CONTENT_STREAM,
+                "payload": {"content": content_token},
+            }
             accumulated_content += content_token
 
         if tool_calls_delta:
