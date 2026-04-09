@@ -9,7 +9,6 @@ def prompt_model(messages, params):
         "model": "qwen/qwen3.5-9b",
         "messages": messages,
         "stream": True,
-        "extra_body": {"reasoning": {"enabled": False}},
     }
 
     request_payload.update(params)
@@ -32,12 +31,15 @@ def _handle_streamed_response(response):
             continue
 
         delta = chunk.choices[0].delta
-        # print(f"chunk: {delta}")
-        content_token = delta.content
-        tool_calls_delta = delta.tool_calls
+        content_token = getattr(delta, "content", None)
+        reasoning_token = getattr(delta, "reasoning_content", None)
+        tool_calls_delta = getattr(delta, "tool_calls", None)
+
+        if reasoning_token:
+            yield {"type": "reasoning_content", "delta": reasoning_token}
 
         if content_token:
-            yield content_token
+            yield {"type": "content", "delta": content_token}
             accumulated_content += content_token
 
         if tool_calls_delta:

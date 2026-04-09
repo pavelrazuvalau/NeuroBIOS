@@ -33,7 +33,7 @@ def execute(**kwargs):
             if action_function:
                 function_result = action_function(function_arguments)
 
-                yield f"[TOOL CALL]: {function_name} with args: {function_arguments}"
+                yield {"type": "tool_call", "name": function_name, "args": function_arguments}
 
                 tool_responses.append(
                     {
