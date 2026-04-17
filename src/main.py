@@ -1,11 +1,16 @@
-from agents.coffee.coffee_agent import CoffeeAgent
+from agents.coffee.coffee_config import (
+    COFFEE_FLOW_ACTIONS,
+    COFFEE_SYSTEM_STATE_ACTIONS,
+    COFFEE_FLOW,
+)
+from core.agent import AgentCore
 from core.constants import StreamingEvent
 
 
 def main():
-    coffee_agent = CoffeeAgent()
+    coffee_agent = AgentCore(COFFEE_FLOW_ACTIONS | COFFEE_SYSTEM_STATE_ACTIONS)
     user_prompt = input("prompt > ")
-    response_generator = coffee_agent.run(user_prompt)
+    response_generator = coffee_agent.run(COFFEE_FLOW, user_prompt)
 
     for chunk in response_generator:
         event = chunk.get("event")

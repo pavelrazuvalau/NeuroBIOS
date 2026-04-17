@@ -4,15 +4,12 @@ from core.constants import SYSTEM_STOP_STATES, SystemState
 
 
 class StateMachine:
-    def __init__(self, flow_actions, system_actions=None):
+    def __init__(self, state_actions):
         self.state = SystemState.IDLE
         self.is_flow_running = False
 
         self._flow_states = tuple()
-
-        self._system_actions = system_actions or {}
-        self._flow_actions = flow_actions
-        self._actions = self._system_actions | self._flow_actions
+        self._state_actions = state_actions
 
         self._is_unhandled_failure_occurred = False
         self._next_state = None
@@ -57,7 +54,7 @@ class StateMachine:
         self._set_state(next_state)
 
     def execute_state(self, **kwargs):
-        current_action = self._actions.get(self.state)
+        current_action = self._state_actions.get(self.state)
 
         if current_action:
             response = current_action(**kwargs)

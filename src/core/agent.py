@@ -1,26 +1,21 @@
 import inspect
 
-from agents.coffee.coffee_config import (
-    COFFEE_FLOW,
-    COFFEE_FLOW_ACTIONS,
-    COFFEE_SYSTEM_STATE_ACTIONS,
-)
 from core.constants import MessageRole, StreamingEvent
 from core.fsm import StateMachine
 from core.utils import deep_merge
 from core.context_manager import ContextManager
 
 
-class CoffeeAgent:
-    def __init__(self):
-        self._fsm = StateMachine(COFFEE_FLOW_ACTIONS, COFFEE_SYSTEM_STATE_ACTIONS)
+class AgentCore:
+    def __init__(self, actions):
+        self._fsm = StateMachine(actions)
         self._context_manager = ContextManager()
         self._agent_state = {}
 
-    def run(self, user_prompt):
+    def run(self, flow, user_prompt):
         self._context_manager.append_message(MessageRole.USER, user_prompt)
 
-        self._fsm.set_flow(COFFEE_FLOW)
+        self._fsm.set_flow(flow)
         yield from self._run_fsm()
 
     def _run_fsm(self):
