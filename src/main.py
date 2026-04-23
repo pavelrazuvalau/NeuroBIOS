@@ -1,14 +1,23 @@
 from agents.coffee.coffee_config import (
-    COFFEE_FLOW_ACTIONS,
-    COFFEE_SYSTEM_STATE_ACTIONS,
+    COFFEE_FLOW_CONTROLLERS,
     COFFEE_FLOW,
+    COFFEE_TOOLS_LIST,
+    COFFEE_TOOLS_REGISTRY,
+)
+from agents.coffee.prompts.system.coffee_maker_system_prompt import (
+    coffee_maker_system_prompt,
 )
 from core.agent import AgentCore
 from core.constants import StreamingEvent
 
 
 def main():
-    coffee_agent = AgentCore(COFFEE_FLOW_ACTIONS | COFFEE_SYSTEM_STATE_ACTIONS)
+    coffee_agent = AgentCore(
+        COFFEE_FLOW_CONTROLLERS,
+        system_prompt=coffee_maker_system_prompt,
+        tools_contract=COFFEE_TOOLS_LIST,
+        tools_registry=COFFEE_TOOLS_REGISTRY,
+    )
     user_prompt = input("prompt > ")
     response_generator = coffee_agent.run(COFFEE_FLOW, user_prompt)
 
@@ -27,7 +36,7 @@ def main():
                 print(payload.get("content", ""), end="", flush=True)
             case StreamingEvent.TOOL_CALL:
                 print(
-                    f"[TOOL CALL] {payload.get('name')} with args: {payload.get('arguments')}"
+                    f"[TOOL CALL] {payload.get('name')} with content: {payload.get('content')}"
                 )
             case StreamingEvent.RESPONSE_END:
                 print("EOS")

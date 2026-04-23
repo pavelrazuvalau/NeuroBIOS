@@ -1,28 +1,21 @@
-import inspect
-
-from agents.coffee.tools.coffee_execute_tools_contract import COFFEE_TOOLS_LIST
-from core.context_manager import ContextManager
-from lm.lm_service import send_messages
-from agents.coffee.prompts.system.coffee_maker_system_prompt import (
-    coffee_maker_system_prompt,
-)
+from core.controller.base_lm_controller import BaseLMController
 from agents.coffee.prompts.task.coffee_plan_next_step_prompt import (
     plan_step_prompt,
 )
 
 
-def plan_next_step(**kwargs):
-    context = kwargs.get("context", [])
-    state = kwargs.get("state", {})
-    session_plan = state.get("session_plan", "")
+class CoffeeNextStepPlanController(BaseLMController):
+    def _build_system_prompt(self, state, context):
+        session_plan = state.get("session_plan", "")
+        plan_description_prompt = (
+            f"Given tha plan below:\n{session_plan}" if session_plan else ""
+        )
 
-    plan_description = f"Given tha plan below:\n{session_plan}" if session_plan else ""
-    system_prompt = f"{coffee_maker_system_prompt.strip()}\n\n{plan_description.strip()}\n\n{plan_step_prompt.strip()}"
+        return (
+            f"{self._system_prompt}\n\n{plan_description_prompt}\n\n{plan_step_prompt}"
+        )
 
-    context_manager = ContextManager(context)
-    context_with_system_prompt = context_manager.get_history_with_system_prompt(system_prompt)
-
-    response = send_messages(context_with_system_prompt, tools=COFFEE_TOOLS_LIST)
-    result = (yield from response) if inspect.isgenerator(response) else response
-
-    return {"result": "Planning step complete", "context_delta": [result]}
+    def _build_response(self, model_response):
+        return {
+            "context_delta": [model_response],
+        }

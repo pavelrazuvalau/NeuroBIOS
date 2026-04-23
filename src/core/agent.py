@@ -7,8 +7,15 @@ from core.context_manager import ContextManager
 
 
 class AgentCore:
-    def __init__(self, actions):
-        self._fsm = StateMachine(actions)
+    def __init__(self, controllers, **config):
+        self._config = config
+        fsm_actions = {}
+
+        for fsm_state, controller in controllers.items():
+            controller_instance = controller(**config)
+            fsm_actions[fsm_state] = controller_instance.run
+
+        self._fsm = StateMachine(fsm_actions)
         self._context_manager = ContextManager()
         self._agent_state = {}
 
@@ -34,11 +41,12 @@ class AgentCore:
                 else step_response
             )
 
-            step_messages_delta = step_result.get("context_delta", [])
-            step_state_delta = step_result.get("state_delta", {})
+            if step_result:
+                step_messages_delta = step_result.get("context_delta", [])
+                self._context_manager.append_messages_list(step_messages_delta)
 
-            self._context_manager.append_messages_list(step_messages_delta)
-            self._update_agent_state(step_state_delta)
+                step_state_delta = step_result.get("state_delta", {})
+                self._update_agent_state(step_state_delta)
 
             self._fsm.go_to_next_state()
 
