@@ -1,14 +1,13 @@
+from agents.coffee.prompts.system.coffee_maker_system_prompt import (
+    coffee_maker_system_prompt,
+)
 from agents.coffee.prompts.task.coffee_plan_task_prompt import plan_task_prompt
 from core.controller.base_lm_controller import BaseLMController
 
 
 class CoffeeGlobalPlanController(BaseLMController):
-    def __init__(self, **config):
-        super().__init__(**config)
-        self._are_tools_enabled = False
-
     def _build_system_prompt(self, state, context):
-        return f"{self._system_prompt}\n\n{plan_task_prompt}"
+        return f"{coffee_maker_system_prompt}\n\n{plan_task_prompt}"
 
     def _build_response(self, model_response):
         return {

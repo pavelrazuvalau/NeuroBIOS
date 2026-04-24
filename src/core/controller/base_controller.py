@@ -3,9 +3,6 @@ import inspect
 
 
 class BaseController(ABC):
-    def __init__(self, **config):
-        self._config = config
-
     def run(self, **kwargs):
         state = kwargs.get("state", None)
         context = kwargs.get("context", None)

@@ -7,12 +7,11 @@ from core.context_manager import ContextManager
 
 
 class AgentCore:
-    def __init__(self, controllers, **config):
-        self._config = config
+    def __init__(self, controllers):
         fsm_actions = {}
 
         for fsm_state, controller in controllers.items():
-            controller_instance = controller(**config)
+            controller_instance = controller()
             fsm_actions[fsm_state] = controller_instance.run
 
         self._fsm = StateMachine(fsm_actions)

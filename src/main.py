@@ -1,23 +1,10 @@
-from agents.coffee.coffee_config import (
-    COFFEE_FLOW_CONTROLLERS,
-    COFFEE_FLOW,
-    COFFEE_TOOLS_LIST,
-    COFFEE_TOOLS_REGISTRY,
-)
-from agents.coffee.prompts.system.coffee_maker_system_prompt import (
-    coffee_maker_system_prompt,
-)
+from agents.coffee.coffee_config import COFFEE_FLOW_CONTROLLERS, COFFEE_FLOW
 from core.agent import AgentCore
 from core.constants import StreamingEvent
 
 
 def main():
-    coffee_agent = AgentCore(
-        COFFEE_FLOW_CONTROLLERS,
-        system_prompt=coffee_maker_system_prompt,
-        tools_contract=COFFEE_TOOLS_LIST,
-        tools_registry=COFFEE_TOOLS_REGISTRY,
-    )
+    coffee_agent = AgentCore(COFFEE_FLOW_CONTROLLERS)
     user_prompt = input("prompt > ")
     response_generator = coffee_agent.run(COFFEE_FLOW, user_prompt)
 

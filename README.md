@@ -22,7 +22,7 @@ The controller-based architecture is chosen to provide easier development and co
 
 ### System Prompt
 
-Each controller can build its own system prompt or supplement the globally defined one before sending the context to the model.
+Each controller can build its own context-aware system prompt for the specific state which gives more flexibility in designing the agent's behavior on different states.
 
 ### Context Management
 

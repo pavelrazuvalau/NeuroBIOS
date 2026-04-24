@@ -6,18 +6,15 @@ from core.controller.base_controller import BaseController
 
 
 class BaseLMController(BaseController):
-    def __init__(self, **config):
-        super().__init__(**config)
-        self._system_prompt = self._config.get("system_prompt", None)
-        self._tools_contract = self._config.get("tools_contract", None)
-        self._are_tools_enabled = True
+    def __init__(self, tools_contract=None):
+        super().__init__()
+        self._tools_contract = tools_contract
 
     def _build_system_prompt(self, state, context):
-        return self._system_prompt
+        pass
 
     def _execute(self, state, context):
         system_prompt = self._build_system_prompt(state, context)
-        tools_contract = self._tools_contract if self._are_tools_enabled else None
 
         context_manager = ContextManager(context)
         context_to_send = (
@@ -26,5 +23,5 @@ class BaseLMController(BaseController):
             else context_manager.get_messages_history()
         )
 
-        response = send_messages(context_to_send, tools=tools_contract)
+        response = send_messages(context_to_send, tools=self._tools_contract)
         return (yield from response) if inspect.isgenerator(response) else response

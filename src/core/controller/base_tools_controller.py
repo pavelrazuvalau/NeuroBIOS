@@ -3,16 +3,16 @@ from core.constants import StreamingEvent
 
 
 class BaseToolsController(BaseController):
-    def __init__(self, **config):
-        super().__init__(**config)
-        self._tools_registry = self._config.get("tools_registry", None)
+    def __init__(self, tools_registry):
+        super().__init__()
+        self._tools_registry = tools_registry
 
     def _execute(self, state, context):
         last_message = context[-1] if context else {}
         tool_calls = last_message.get("tool_calls", None)
         tool_responses = []
 
-        if self._tools_registry and tool_calls:
+        if tool_calls:
             for tool_call in tool_calls:
                 tool_call_id = tool_call.get("id")
                 function_to_call = tool_call.get("function", {})
