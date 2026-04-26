@@ -1,7 +1,7 @@
 import inspect
 
-from core.context_manager import ContextManager
-from core.controller.base_controller import BaseController
+from neurobios.core.context_manager import ContextManager
+from neurobios.core.controller.base_controller import BaseController
 
 
 class BaseLMController(BaseController):

@@ -2,7 +2,7 @@ from agents.coffee.prompts.system.coffee_maker_system_prompt import (
     coffee_maker_system_prompt,
 )
 from agents.coffee.prompts.task.coffee_plan_task_prompt import plan_task_prompt
-from core.controller.base_lm_controller import BaseLMController
+from neurobios.core.controller.base_lm_controller import BaseLMController
 
 
 class CoffeeGlobalPlanController(BaseLMController):

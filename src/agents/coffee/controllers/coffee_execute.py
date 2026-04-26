@@ -1,4 +1,4 @@
-from core.controller.base_tools_controller import BaseToolsController
+from neurobios.core.controller.base_tools_controller import BaseToolsController
 
 from agents.coffee.coffee_constants import CoffeeFlowState
 from agents.coffee.tools.coffee_execute_tools_definition import (

@@ -1,5 +1,5 @@
-from core.controller.base_controller import BaseController
-from core.constants import StreamingEvent
+from neurobios.core.controller.base_controller import BaseController
+from neurobios.core.constants import StreamingEvent
 
 
 class BaseToolsController(BaseController):

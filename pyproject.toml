@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neurobios"
+version = "0.1.0"
+description = "FSM-based LLM agent orchestration framework"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=2.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

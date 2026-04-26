@@ -1,6 +1,6 @@
 import inspect
 
-from core.constants import SYSTEM_STOP_STATES, SystemState
+from neurobios.core.constants import SYSTEM_STOP_STATES, SystemState
 
 
 class StateMachine:

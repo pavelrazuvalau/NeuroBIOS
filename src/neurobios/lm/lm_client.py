@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from core.constants import StreamingEvent
+from neurobios.core.constants import StreamingEvent
 
 
 class LMClient:

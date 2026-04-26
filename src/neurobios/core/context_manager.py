@@ -1,4 +1,4 @@
-from core.constants import MessageRole
+from neurobios.core.constants import MessageRole
 
 
 class ContextManager:

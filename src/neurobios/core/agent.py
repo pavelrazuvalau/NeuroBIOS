@@ -1,11 +1,11 @@
 import inspect
 
-from core.constants import MessageRole, StreamingEvent
-from core.fsm import StateMachine
-from core.utils import deep_merge
-from core.context_manager import ContextManager
-from lm.lm_client import LMClient
-from lm.lm_service import LMService
+from neurobios.core.constants import MessageRole, StreamingEvent
+from neurobios.core.fsm import StateMachine
+from neurobios.core.utils import deep_merge
+from neurobios.core.context_manager import ContextManager
+from neurobios.lm.lm_client import LMClient
+from neurobios.lm.lm_service import LMService
 
 
 class AgentCore:

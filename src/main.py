@@ -1,6 +1,6 @@
 from agents.coffee.coffee_config import COFFEE_FLOW_CONTROLLERS, COFFEE_FLOW
-from core.agent import AgentCore
-from core.constants import StreamingEvent
+from neurobios.core.agent import AgentCore
+from neurobios.core.constants import StreamingEvent
 
 
 def main():
