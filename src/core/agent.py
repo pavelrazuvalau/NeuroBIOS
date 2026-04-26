@@ -4,17 +4,13 @@ from core.constants import MessageRole, StreamingEvent
 from core.fsm import StateMachine
 from core.utils import deep_merge
 from core.context_manager import ContextManager
+from lm.lm_client import LMClient
+from lm.lm_service import LMService
 
 
 class AgentCore:
-    def __init__(self, controllers):
-        fsm_actions = {}
-
-        for fsm_state, controller in controllers.items():
-            controller_instance = controller()
-            fsm_actions[fsm_state] = controller_instance.run
-
-        self._fsm = StateMachine(fsm_actions)
+    def __init__(self, **config):
+        self._fsm = StateMachine(self._init_fsm_state_actions(**config))
         self._context_manager = ContextManager()
         self._agent_state = {}
 
@@ -23,6 +19,30 @@ class AgentCore:
 
         self._fsm.set_flow(flow)
         yield from self._run_fsm()
+
+    def _init_fsm_state_actions(self, **config):
+        dependencies = self._init_dependencies(**config)
+        states_config = config.get("states_config", {})
+
+        fsm_state_actions = {}
+
+        for fsm_state, controller in states_config.items():
+            controller_instance = controller(dependencies)
+            fsm_state_actions[fsm_state] = controller_instance.run
+
+        return fsm_state_actions
+
+    def _init_dependencies(self, **config):
+        dependencies = config.get("dependencies", {})
+
+        lm_client = LMClient(
+            base_url=config.get("base_url"),
+            api_key=config.get("api_key"),
+            model=config.get("model"),
+        )
+        lm_service = LMService(lm_client)
+
+        return {"lm_service": lm_service, **dependencies}
 
     def _run_fsm(self):
         while self._fsm.is_flow_running:

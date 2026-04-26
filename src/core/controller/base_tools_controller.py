@@ -3,9 +3,9 @@ from core.constants import StreamingEvent
 
 
 class BaseToolsController(BaseController):
-    def __init__(self, tools_registry):
-        super().__init__()
-        self._tools_registry = tools_registry
+    def __init__(self, dependencies, tools_registry=None):
+        super().__init__(dependencies)
+        self._tools_registry = tools_registry or {}
 
     def _execute(self, state, context):
         last_message = context[-1] if context else {}

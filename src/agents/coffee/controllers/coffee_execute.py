@@ -18,8 +18,8 @@ COFFEE_TOOLS_REGISTRY = {
 
 
 class CoffeeExecuteController(BaseToolsController):
-    def __init__(self):
-        super().__init__(COFFEE_TOOLS_REGISTRY)
+    def __init__(self, dependencies):
+        super().__init__(dependencies, tools_registry=COFFEE_TOOLS_REGISTRY)
 
     def _build_response(self, tool_responses):
         return {

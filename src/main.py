@@ -4,7 +4,12 @@ from core.constants import StreamingEvent
 
 
 def main():
-    coffee_agent = AgentCore(COFFEE_FLOW_CONTROLLERS)
+    coffee_agent = AgentCore(
+        states_config=COFFEE_FLOW_CONTROLLERS,
+        base_url="http://localhost:8080",
+        api_key="llama.cpp",
+        model="qwen/qwen3.5-9b",
+    )
     user_prompt = input("prompt > ")
     response_generator = coffee_agent.run(COFFEE_FLOW, user_prompt)
 

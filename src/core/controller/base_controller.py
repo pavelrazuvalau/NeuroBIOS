@@ -3,10 +3,10 @@ import inspect
 
 
 class BaseController(ABC):
-    def run(self, **kwargs):
-        state = kwargs.get("state", None)
-        context = kwargs.get("context", None)
+    def __init__(self, dependencies):
+        self._dependencies = dependencies
 
+    def run(self, *, state, context):
         response = self._execute(state, context)
         result = (yield from response) if inspect.isgenerator(response) else response
         return self._build_response(result)

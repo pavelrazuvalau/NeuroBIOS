@@ -10,8 +10,8 @@ from agents.coffee.prompts.task.coffee_plan_next_step_prompt import (
 
 
 class CoffeeNextStepPlanController(BaseLMController):
-    def __init__(self):
-        super().__init__(COFFEE_TOOLS_LIST)
+    def __init__(self, dependencies):
+        super().__init__(dependencies, tools_contract=COFFEE_TOOLS_LIST)
 
     def _build_system_prompt(self, state, context):
         session_plan = state.get("session_plan", "")

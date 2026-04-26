@@ -1,14 +1,14 @@
 import inspect
 
 from core.context_manager import ContextManager
-from lm.lm_service import send_messages
 from core.controller.base_controller import BaseController
 
 
 class BaseLMController(BaseController):
-    def __init__(self, tools_contract=None):
-        super().__init__()
+    def __init__(self, dependencies, tools_contract=None):
+        super().__init__(dependencies)
         self._tools_contract = tools_contract
+        self._lm_service = self._dependencies.get("lm_service")
 
     def _build_system_prompt(self, state, context):
         pass
@@ -23,5 +23,7 @@ class BaseLMController(BaseController):
             else context_manager.get_messages_history()
         )
 
-        response = send_messages(context_to_send, tools=self._tools_contract)
+        response = self._lm_service.send_messages(
+            context_to_send, tools=self._tools_contract
+        )
         return (yield from response) if inspect.isgenerator(response) else response
