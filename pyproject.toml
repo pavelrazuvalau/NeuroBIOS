@@ -9,6 +9,7 @@ description = "FSM-based LLM agent orchestration framework"
 requires-python = ">=3.10"
 dependencies = [
     "openai>=2.0",
+    "pydantic>=2.0",
 ]
 
 [tool.setuptools.packages.find]

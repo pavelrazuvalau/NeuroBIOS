@@ -1,20 +1,26 @@
-from abc import ABC, abstractmethod
 import inspect
+from abc import ABC, abstractmethod
+from typing import Any, Generator
+
+from neurobios.core.models import (
+    ControllerState,
+    AgentStepResult,
+    AgentStreamingEvent,
+)
 
 
 class BaseController(ABC):
-    def __init__(self, dependencies):
-        self._dependencies = dependencies
-
-    def run(self, *, state, context):
-        response = self._execute(state, context)
+    def run(
+        self, state: ControllerState
+    ) -> Generator[AgentStreamingEvent, None, AgentStepResult] | AgentStepResult:
+        response = self._execute(state)
         result = (yield from response) if inspect.isgenerator(response) else response
         return self._build_response(result)
 
     @abstractmethod
-    def _execute(self, state, context):
-        pass
+    def _execute(
+        self, state: ControllerState
+    ) -> Generator[AgentStreamingEvent, None, Any] | Any: ...
 
     @abstractmethod
-    def _build_response(self, result):
-        pass
+    def _build_response(self, result: Any) -> AgentStepResult: ...

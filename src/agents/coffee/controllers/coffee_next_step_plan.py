@@ -3,6 +3,12 @@ from agents.coffee.prompts.system.coffee_maker_system_prompt import (
 )
 from agents.coffee.tools.coffee_execute_tools_contract import COFFEE_TOOLS_LIST
 from neurobios.core.controller.base_lm_controller import BaseLMController
+from neurobios.core.models import (
+    ControllerState,
+    AgentStepResult,
+)
+from neurobios.lm.models import Message
+from neurobios.core.deps import CoreDependencies
 
 from agents.coffee.prompts.task.coffee_plan_next_step_prompt import (
     plan_step_prompt,
@@ -10,18 +16,18 @@ from agents.coffee.prompts.task.coffee_plan_next_step_prompt import (
 
 
 class CoffeeNextStepPlanController(BaseLMController):
-    def __init__(self, dependencies):
+    def __init__(self, dependencies: CoreDependencies):
         super().__init__(dependencies, tools_contract=COFFEE_TOOLS_LIST)
 
-    def _build_system_prompt(self, state, context):
-        session_plan = state.get("session_plan", "")
+    def _build_system_prompt(self, state: ControllerState) -> str:
+        session_plan = state.agent_state.get("session_plan", "")
         plan_description_prompt = (
             f"Given tha plan below:\n{session_plan}" if session_plan else ""
         )
 
         return f"{coffee_maker_system_prompt}\n\n{plan_description_prompt}\n\n{plan_step_prompt}"
 
-    def _build_response(self, model_response):
-        return {
-            "context_delta": [model_response],
-        }
+    def _build_response(self, model_response: Message) -> AgentStepResult:
+        return AgentStepResult(
+            context_delta=[model_response],
+        )
