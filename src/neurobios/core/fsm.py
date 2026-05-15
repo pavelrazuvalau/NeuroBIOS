@@ -9,7 +9,7 @@ class StateMachine:
     state: SystemState | Enum
     is_flow_running: bool
 
-    _flow_states: tuple[Enum]
+    _flow_states: tuple[Enum, ...]
     _state_actions: dict[Enum, Callable]
     _next_state: Enum | None
 

@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Generator, cast
 from neurobios.lm.lm_client import LMClient
 from neurobios.core.models import AgentStreamingEvent
 from neurobios.lm.models import Message, LMRequestConfig
@@ -17,7 +17,7 @@ class LMService:
         self, messages: list[Message], criteria: list[str]
     ) -> str | None:
         config = LMRequestConfig(stream=False)
-        response = self.send_messages(messages, config)
+        response = cast(Message, self.send_messages(messages, config))
 
         content = response.content or ""
         return self.sanitize_metric_response(content, criteria)

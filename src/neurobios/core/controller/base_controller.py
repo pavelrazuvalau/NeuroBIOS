@@ -1,6 +1,8 @@
 import inspect
 from abc import ABC, abstractmethod
-from typing import Any, Generator
+from typing import Any, Callable, Generator
+
+from neurobios.core.deps import CoreDependencies
 
 from neurobios.core.models import (
     ControllerState,
@@ -24,3 +26,5 @@ class BaseController(ABC):
 
     @abstractmethod
     def _build_response(self, result: Any) -> AgentStepResult: ...
+
+ControllerClass = Callable[[CoreDependencies], BaseController]

@@ -48,5 +48,5 @@ class BaseLMController(BaseController):
         return (yield from response) if inspect.isgenerator(response) else response
 
     @abstractmethod
-    def _build_response(self, model_response: Message) -> AgentStepResult:
+    def _build_response(self, result: Message) -> AgentStepResult:
         ...

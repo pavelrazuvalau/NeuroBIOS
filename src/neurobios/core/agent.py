@@ -1,12 +1,12 @@
 import inspect
 from enum import Enum
-from typing import Any, Callable, Generator
+from typing import Any, Callable, Generator, cast
 
 from neurobios.core.constants import MessageRole, StreamingEvent
 from neurobios.core.fsm import StateMachine
 from neurobios.core.utils import deep_merge
 from neurobios.core.context_manager import ContextManager
-from neurobios.core.controller.base_controller import BaseController
+from neurobios.core.controller.base_controller import ControllerClass
 from neurobios.core.deps import CoreConfig, CoreDependencies
 from neurobios.core.models import (
     ControllerState,
@@ -24,7 +24,7 @@ class AgentCore:
     def __init__(
         self,
         *,
-        states_config: dict[Enum, BaseController],
+        states_config: dict[Enum, ControllerClass],
         core_config: CoreConfig,
         dependencies: CoreDependencies | None = None,
     ):
@@ -54,7 +54,7 @@ class AgentCore:
 
     def _init_fsm_state_actions(
         self,
-        states_config: dict[Enum, BaseController],
+        states_config: dict[Enum, ControllerClass],
         dependencies: CoreDependencies,
     ) -> dict[Enum, Callable]:
         fsm_state_actions = {}
@@ -78,11 +78,10 @@ class AgentCore:
             )
             step_response = self._fsm.execute_state(controller_state)
 
-            step_result: AgentStepResult = (
-                (yield from step_response)
-                if inspect.isgenerator(step_response)
-                else step_response
-            )
+            if inspect.isgenerator(step_response):
+                step_result = cast(AgentStepResult, (yield from step_response))
+            else:
+                step_result = cast(AgentStepResult, step_response)
 
             if step_result:
                 step_messages_delta = step_result.context_delta or []

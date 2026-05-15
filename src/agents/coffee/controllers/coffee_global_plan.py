@@ -14,7 +14,7 @@ class CoffeeGlobalPlanController(BaseLMController):
     def _build_system_prompt(self, state: ControllerState) -> str:
         return f"{coffee_maker_system_prompt}\n\n{plan_task_prompt}"
 
-    def _build_response(self, model_response: Message) -> AgentStepResult:
+    def _build_response(self, result: Message) -> AgentStepResult:
         return AgentStepResult(
-            state_delta={"session_plan": model_response.content},
+            state_delta={"session_plan": result.content},
         )

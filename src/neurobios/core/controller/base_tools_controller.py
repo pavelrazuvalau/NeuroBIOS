@@ -55,5 +55,5 @@ class BaseToolsController(BaseController):
         return tool_responses
 
     @abstractmethod
-    def _build_response(self, tool_responses: list[Message]) -> AgentStepResult:
+    def _build_response(self, result: list[Message]) -> AgentStepResult:
         ...

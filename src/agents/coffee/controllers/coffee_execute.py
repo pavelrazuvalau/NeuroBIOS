@@ -24,8 +24,8 @@ class CoffeeExecuteController(BaseToolsController):
     def __init__(self, dependencies: CoreDependencies):
         super().__init__(tools_registry=COFFEE_TOOLS_REGISTRY)
 
-    def _build_response(self, tool_responses: list[Message]) -> AgentStepResult:
+    def _build_response(self, result: list[Message]) -> AgentStepResult:
         return AgentStepResult(
-            context_delta=tool_responses,
-            next_state=CoffeeFlowState.NEXT_STEP_PLAN if tool_responses else None,
+            context_delta=result,
+            next_state=CoffeeFlowState.NEXT_STEP_PLAN if result else None,
         )
